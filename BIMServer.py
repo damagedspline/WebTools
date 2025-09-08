@@ -322,7 +322,11 @@ class BimServerTaskPanel:
                         comment = os.path.basename(tf)
                 else:
                     tf = tempfile.mktemp(suffix=".ifc")
-                import exportIFC
+                try:
+                    from importers import exportIFC
+                except:
+                    # FreeCAD pre-1.0
+                    import exportIFC
                 self.form.labelStatus.setText(translate("WebTools","Saving file..."))
                 exportIFC.export([self.RootObjects[self.form.comboRoot.currentIndex()]],tf)
                 f = open(tf,"rb")
